@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register,success_view,login_view,fleet_manager_home_view,driver_home_view,introduction_to_ev,dataset,distribution,relationship,vehicle_status,prediction_view,relationship_view,home_view,predict_range,predict_electric_range,relationship_analysis
+from .views import register,success_view,login_view,fleet_manager_home_view,driver_home_view,introduction_to_ev,dataset,distribution,relationship,vehicle_status,prediction_view,relationship_view,home_view,predict_range,predict_electric_range,relationship_analysis,custom_logout_view
 
 urlpatterns = [
     path("", home_view, name="home"),
@@ -20,5 +20,7 @@ urlpatterns = [
     path('predict/', predict_electric_range, name='predict_electric_range'),
     path('predict_range/',predict_range, name='predict_range'),
     path('relationship_analysis/', relationship_analysis, name='relationship_analysis'),
+    path("logout/", custom_logout_view, name="logout")
+
 ]
 

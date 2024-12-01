@@ -247,3 +247,10 @@ def relationship_analysis(request):
         "selected_y": y_axis,
         "selected_chart": chart_type
     })
+
+
+from django.contrib.auth import logout
+def custom_logout_view(request):
+    """Logs out the user and redirects to the homepage."""
+    logout(request)  # Logs out the user
+    return redirect("home")

@@ -10,57 +10,105 @@
     <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
 
     <style>
-        /* Body and Overall Styling */
+        /* Body Styling */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #00c6ff, #0072ff); /* Gradient background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            height: 100vh; /* Full viewport height */
         }
 
-        /* Container Styling */
+        /* Header Styling */
+        .header {
+            position: fixed; /* Sticks to the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+            padding: 10px 20px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000; /* Ensures it stays above other content */
+            box-sizing: border-box; /* Prevents content from overflowing */
+        }
+
+        .header .title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .header .logout-button {
+            padding: 8px 15px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s ease;
+        }
+
+        .header .logout-button:hover {
+            background-color: #e60000; /* Darker red on hover */
+        }
+
+        /* Wrapper Styling */
         .wrapper {
             width: 100%;
-            max-width: 1200px; /* Increased width for better alignment */
-            padding: 40px;
-            background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for modern look */
+            max-width: 800px; /* Reduced the max-width for smaller content */
+            padding: 20px; /* Reduced padding for a smaller background */
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-            color: #333; /* Darker text for readability */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            color: #333;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            justify-content: flex-start; /* Align content to the top */
+            min-height: 400px; /* Reduced height for the white background */
         }
 
         /* Title Styling */
         h1 {
-            font-size: 2rem;
-            margin-bottom: 30px;
+            font-size: 1.8rem; /* Slightly smaller title font */
+            margin-bottom: 20px; /* Reduced margin */
             color: #333;
             font-weight: 600;
         }
 
         /* Greeting */
         .greeting {
-            font-size: 1.5rem;
+            font-size: 1.3rem; /* Reduced greeting font size */
             margin-bottom: 20px;
-            color: #0072ff; /* Change the greeting color to match the theme */
+            color: #0072ff;
         }
 
         /* Button Container */
         .button-container {
             display: flex;
-            justify-content: space-between; /* Space buttons evenly */
-            flex-wrap: wrap; /* Wrap buttons on smaller screens */
-            margin-top: 20px; /* Added margin to create space */
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            width: 100%; /* Ensure full width for buttons */
+            max-width: 700px; /* Limit the max width */
         }
 
         /* Button Styling */
         .btn {
-            flex: 1; /* Make buttons flexible */
+            flex: 1;
             padding: 12px;
-            background-color: #00c6ff; /* Button background color */
+            background-color: #00c6ff;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -68,38 +116,56 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            text-transform: uppercase; /* Makes button text all caps */
-            margin: 5px; /* Space between buttons */
-            text-decoration: none; /* Remove underline from links */
-            text-align: center; /* Align text in the center */
+            text-transform: uppercase;
+            margin: 5px;
+            text-decoration: none;
+            text-align: center;
         }
 
         .btn:hover {
-            background-color: #0072ff; /* Change color on hover */
+            background-color: #0072ff;
         }
 
-        /* Footer Styling */
-        footer {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #777;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header .title {
+                font-size: 1.2rem;
+            }
+
+            .header .logout-button {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .wrapper {
+                margin-top: 0; /* Remove the top margin on smaller screens */
+            }
+
+            .button-container {
+                flex-direction: column; /* Stack buttons on smaller screens */
+            }
         }
+
     </style>
 </head>
 <body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="title">Fleet Manager Dashboard</div>
+        <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+    </header>
+
+    <!-- Main Content -->
     <div class="wrapper">
-        <h1>WELCOME FLEET MANAGER!!</h1> <!-- Dynamic username will be rendered here -->
-        <div class="greeting">Welcome to your Fleet Management Dashboard !! Monitor and manage your vehicles in real-time for optimal performance and efficiency.</div>
+        <p></p><br>
+        <h1>WELCOME FLEET MANAGER!!</h1>
+        <div class="greeting">Welcome to your Fleet Management Dashboard! Monitor and manage your vehicles in real-time for optimal performance and efficiency.</div>
         <div class="button-container">
-            <!-- Updated links with Django template tags -->
             <a href="{% url 'introduction_to_ev' %}" class="btn">Introduction to EV</a>
             <a href="{% url 'dataset' %}" class="btn">Dataset</a>
-            <!-- <a href="{% url 'distribution' %}" class="btn">Distribution</a> -->
             <a href="{% url 'relationship' %}" class="btn">Relationship</a>
-            <!-- <a href="{% url 'relationship_analysis' %}" class="btn">Relationship</a> -->
             <a href="{% url 'vehicle_status' %}" class="btn">Vehicle Status</a>
-            <!-- New Prediction button -->
-            <a href="{% url 'predict_electric_range' %}" class="btn">Prediction</a> <!-- New button added here -->
+            <a href="{% url 'predict_electric_range' %}" class="btn">Prediction</a>
         </div>
     </div>
 </body>
