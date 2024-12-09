@@ -78,19 +78,49 @@ def vehicle_status(request):
 def prediction_view(request):
     return render(request, 'users/prediction.html')  # Adjust as needed
 
+# import pandas as pd
+# from django.shortcuts import render
+
+# def vehicle_status(request):
+#     # Load the dataset with the new path and column name
+#     df = pd.read_csv('Datasets/EV_Synthetic_Data.csv')  # Adjust the path to your new CSV file
+    
+#     # Check if 'vehicle_status' column exists
+#     if 'vehicle_status' not in df.columns:
+#         return render(request, 'users/vehicle_status.html', {'error': "'vehicle_status' column not found in the dataset."})
+
+#     # Count the occurrences of each vehicle status
+#     status_counts = df['vehicle_status'].value_counts()
+
+#     # Prepare the data for the bar chart
+#     data = {
+#         'labels': ['Inactive', 'Active'],  # Assume 0 -> 'Inactive' and 1 -> 'Active'
+#         'values': [status_counts.get(0, 0), status_counts.get(1, 0)]  # Default to 0 if not found
+#     }
+
+#     # Pass the data to the template
+#     return render(request, 'users/vehicle_status.html', {'data': data})
+
 import pandas as pd
 from django.shortcuts import render
 
 def vehicle_status(request):
     # Load the dataset with the new path and column name
     df = pd.read_csv('Datasets/EV_Synthetic_Data.csv')  # Adjust the path to your new CSV file
-    
+
+    # Ensure there are enough records to select the last 10
+    if len(df) < 10:
+        return render(request, 'users/vehicle_status.html', {'error': "Not enough records to display the last 10."})
+
+    # Select only the last 10 records
+    last_10_records = df.tail(10)
+
     # Check if 'vehicle_status' column exists
-    if 'vehicle_status' not in df.columns:
+    if 'vehicle_status' not in last_10_records.columns:
         return render(request, 'users/vehicle_status.html', {'error': "'vehicle_status' column not found in the dataset."})
 
-    # Count the occurrences of each vehicle status
-    status_counts = df['vehicle_status'].value_counts()
+    # Count the occurrences of each vehicle status in the last 10 records
+    status_counts = last_10_records['vehicle_status'].value_counts()
 
     # Prepare the data for the bar chart
     data = {
